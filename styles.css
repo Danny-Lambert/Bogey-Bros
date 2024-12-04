@@ -1,20 +1,30 @@
 /* Typography and Color Scheme */
 :root {
     --primary-color: #2a9d8f;  /* Dark green */
-    --secondary-color: #e9c46a; /* Sand yellow */
+    --secondary-color: #124d2d; /* Sand yellow */
     --accent-color: #264653;    /* Navy blue */
     --text-color: #333;
     --bg-light: #f8f9fa;
   }
-  
+  .primary-color{color: #2a9d8f; }/* Dark green */
+  .secondary-color{color: #124d2d;} /* Sand yellow */
+  .accent-color{color: #264653;    }/* Navy blue */
+  .text-color{color: #333;}
+  .bg-light{color: #f8f9fa;}
+
+
+.parkinsans {
+  font-family: "Parkinsans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
   body {
-    font-family: 'Arial', sans-serif;
     background-color: var(--bg-light);
     color: var(--text-color);
   }
   
   h1, h2 {
-    font-family: 'Georgia', serif;
     color: var(--primary-color);
   }
   
@@ -37,7 +47,8 @@
   
   /* Hero Section */
   .hero {
-    background: url('./images/FullTeamPhoto.jpg') no-repeat center center/cover;
+    /* background: url('./images/FullTeamPhoto.jpg') no-repeat center center/cover; */
+    background: #f0eee2;
     height: 60vh;
     display: flex;
     align-items: center;

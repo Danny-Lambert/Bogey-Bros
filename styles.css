@@ -153,3 +153,6 @@
 .iconHeight{
     height: calc(1.3rem + .6vw);
 }
+.imageCollection{
+    object-fit: scale-down;
+}

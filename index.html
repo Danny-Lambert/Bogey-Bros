@@ -48,13 +48,25 @@
     </div>
   </nav>
   <!-- Hero Section -->
-  <section class="hero text-center d-flex align-items-center h-100">
+  <section class="hero text-center d-flex align-items-center h-100" style="margin-bottom: 10rem;">
     <div class="container row align-items-center justify-content-center">
         <img class="col-10 col-md-6 col-lg-3" alt="logo" src="./images/logo.jpg"/>
         <div class="row col-11 col-md-6 col-lg-6">      
             <h1 class="display-4">Welcome to The Bogey Bros</h1>
-            <p class="secondary-color">A bunch of mates trying to get good at golf</p>            
-            <p class="secondary-color">Take a look through past events, the fa</p>
+            <p class="secondary-color">A bunch of mates trying to get good at golf</p>    
+            <div class="row mx-0 d-flex justify-content-center">
+                <button class="btn btn-secondary col-5 col-md-6 border-0 col-lg-auto mx-2 my-2" style="background-color: #678b73;" onclick="redirectToArdencote">Hall of Fame</button>
+                <button class="btn btn-secondary col-5 col-md-6 border-0 col-lg-auto mx-2 my-2" style="background-color: #678b73;" onclick="redirectToArdencote">Rules</button>
+                <button class="btn btn-secondary dropdown-toggle border-0 col-11 col-md-6 col-lg-auto mx-2 my-2"  style="background-color: #678b73;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Previous Events
+                </button>
+                <ul class="dropdown-menu"  style="background: #f9f6e7;">
+                  <li><a class="dropdown-item" href="./Ardencote2024.html" >Ardencote 2024</a></li>
+                  <li><a class="dropdown-item" href="#">Belton Court 2025</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li class="my-2"><a class="dropdown-item" href="#">Hall of Fame</a></li>
+                </ul>
+            </div>        
         </div>
         <img class="col-10 col-md-6 col-lg-3 d-none d-lg-block" alt="logo" src="./images/logo.jpg"/>
     </div>

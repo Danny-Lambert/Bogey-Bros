@@ -155,4 +155,5 @@
 }
 .imageCollection{
     object-fit: scale-down;
+    max-height:500px
 }

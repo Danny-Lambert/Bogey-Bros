@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Bogey Bros - Golf Club</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chicle&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <script>
+    /*
+ *   This content is licensed according to the W3C Software License at
+ *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
+ *
+ *   File:   sortable-table.js
+ *
+ *   Desc:   Adds sorting to a HTML data table that implements ARIA Authoring Practices
+ */
+
+'use strict';
+
+class SortableTable {
+  constructor(tableNode) {
+    this.tableNode = tableNode;
+
+    this.columnHeaders = tableNode.querySelectorAll('thead th');
+
+    this.sortColumns = [];
+
+    for (var i = 0; i < this.columnHeaders.length; i++) {
+      var ch = this.columnHeaders[i];
+      var buttonNode = ch.querySelector('button');
+      if (buttonNode) {
+        this.sortColumns.push(i);
+        buttonNode.setAttribute('data-column-index', i);
+        buttonNode.addEventListener('click', this.handleClick.bind(this));
+      }
+    }
+
+    this.optionCheckbox = document.querySelector(
+      'input[type="checkbox"][value="show-unsorted-icon"]'
+    );
+
+    if (this.optionCheckbox) {
+      this.optionCheckbox.addEventListener(
+        'change',
+        this.handleOptionChange.bind(this)
+      );
+      if (this.optionCheckbox.checked) {
+        this.tableNode.classList.add('show-unsorted-icon');
+      }
+    }
+  }
+
+  setColumnHeaderSort(columnIndex) {
+    if (typeof columnIndex === 'string') {
+      columnIndex = parseInt(columnIndex);
+    }
+
+    for (var i = 0; i < this.columnHeaders.length; i++) {
+      var ch = this.columnHeaders[i];
+      var buttonNode = ch.querySelector('button');
+      if (i === columnIndex) {
+        var value = ch.getAttribute('aria-sort');
+        if (value === 'descending') {
+          ch.setAttribute('aria-sort', 'ascending');
+          this.sortColumn(
+            columnIndex,
+            'ascending',
+            ch.classList.contains('num')
+          );
+        } else {
+          ch.setAttribute('aria-sort', 'descending');
+          this.sortColumn(
+            columnIndex,
+            'descending',
+            ch.classList.contains('num')
+          );
+        }
+      } else {
+        if (ch.hasAttribute('aria-sort') && buttonNode) {
+          ch.removeAttribute('aria-sort');
+        }
+      }
+    }
+  }
+
+  sortColumn(columnIndex, sortValue, isNumber) {
+    function compareValues(a, b) {
+      if (sortValue === 'ascending') {
+        if (a.value === b.value) {
+          return 0;
+        } else {
+          if (isNumber) {
+            return a.value - b.value;
+          } else {
+            return a.value < b.value ? -1 : 1;
+          }
+        }
+      } else {
+        if (a.value === b.value) {
+          return 0;
+        } else {
+          if (isNumber) {
+            return b.value - a.value;
+          } else {
+            return a.value > b.value ? -1 : 1;
+          }
+        }
+      }
+    }
+
+    if (typeof isNumber !== 'boolean') {
+      isNumber = false;
+    }
+
+    var tbodyNode = this.tableNode.querySelector('tbody');
+    var rowNodes = [];
+    var dataCells = [];
+
+    var rowNode = tbodyNode.firstElementChild;
+
+    var index = 0;
+    while (rowNode) {
+      rowNodes.push(rowNode);
+      var rowCells = rowNode.querySelectorAll('th, td');
+      var dataCell = rowCells[columnIndex];
+
+      var data = {};
+      data.index = index;
+      data.value = dataCell.textContent.toLowerCase().trim();
+      if (isNumber) {
+        data.value = parseFloat(data.value);
+      }
+      dataCells.push(data);
+      rowNode = rowNode.nextElementSibling;
+      index += 1;
+    }
+
+    dataCells.sort(compareValues);
+
+    // remove rows
+    while (tbodyNode.firstChild) {
+      tbodyNode.removeChild(tbodyNode.lastChild);
+    }
+
+    // add sorted rows
+    for (var i = 0; i < dataCells.length; i += 1) {
+      tbodyNode.appendChild(rowNodes[dataCells[i].index]);
+    }
+  }
+
+  /* EVENT HANDLERS */
+
+  handleClick(event) {
+    var tgt = event.currentTarget;
+    this.setColumnHeaderSort(tgt.getAttribute('data-column-index'));
+  }
+
+  handleOptionChange(event) {
+    var tgt = event.currentTarget;
+
+    if (tgt.checked) {
+      this.tableNode.classList.add('show-unsorted-icon');
+    } else {
+      this.tableNode.classList.remove('show-unsorted-icon');
+    }
+  }
+}
+
+// Initialize sortable table buttons
+window.addEventListener('load', function () {
+  var sortableTables = document.querySelectorAll('table.sortable');
+  for (var i = 0; i < sortableTables.length; i++) {
+    new SortableTable(sortableTables[i]);
+  }
+});
+
+  </script>
+</head>
+<body class="parkinsans"  style="background-color: #f0eee2;">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./index.html">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Previous Events
+            </a>
+            <ul class="dropdown-menu"  style="background: #f9f6e7;">
+              <li><a class="dropdown-item" href="./Ardencote2024.html" >Ardencote 2024</a></li>
+              <li><a class="dropdown-item" href="./BeltonCourt2025.html">Belton Court 2025</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li class="my-2"><a class="dropdown-item" href="#">Hall of Fame</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./Rules.html">Rules</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Hero Section -->
+  <section class="hero-hall-of-fame d-flex  text-center align-items-center">
+    <div class="container">
+        <h1 class="display-4 text-white" style="font-size: 4rem;">Hall of Fame</h1>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about py-5">
+
+    <section class="about mt-5 py-2">
+      <div class="container text-center">
+        <h1>Records</h1>
+      </div>
+          <div class="row justify-content-center my-5 mx-0">
+              <div class="row d-flex align-items-center mb-2 mt-3">
+                <img src="./images/score.png" class="col-auto iconHeight pe-0"/>    
+                  <h3 class="col-auto mb-0">Lowest Score </h3>
+              </div>
+              <h5 class="ms-4 mb-4">Danny Lambert & James Cahill (86)(+16) - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-2 mt-3">
+                  <img src="./images/negative-vote.png" class="col-auto iconHeight pe-0"/>    
+                  <h3 class="col-auto mb-0">Highest Score</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Elliott Thompson (106)(+36) - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                  <img src="./images/beer.png" class="col-auto iconHeight pe-0"/>    
+                  <h3 class="col-auto mb-0">Most Pissed</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <h3 class="col-auto mb-0">Most Eagles</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <h3 class="col-auto mb-0">Most Birdies</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <h3 class="col-auto mb-0">Most Pars</h3>
+            </div>
+            <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+            <div class="row d-flex align-items-center mb-3 mt-3">
+              <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+              <h3 class="col-auto mb-0">Hole in Ones</h3>
+          </div>
+          <h5 class="ms-4 mb-4">Imagine.....</h5>
+
+          <div class="table-wrap"><table class="sortable">
+            <caption>
+              Students currently enrolled in WAI-ARIA 101
+              <span class="sr-only"> (column headers with buttons are sortable).</span>
+            </caption>
+            <thead>
+              <tr>
+                <th>
+                  <button>
+                    Golfer
+                    <span aria-hidden="true"></span>
+                  </button>
+                </th>
+                <th>
+                  <button>
+                    Solo <i class="fa-solid fa-trophy goldColour"></i>
+                    <span aria-hidden="true"></span>
+                  </button>
+                </th>
+                <th>
+                  <button>
+                    Team <i class="fa-solid fa-trophy goldColour"></i>
+                    <span aria-hidden="true"></span>
+                  </button>
+                </th>
+                <th>
+                  <button>
+                    Shots
+                    <span aria-hidden="true"></span>
+                  </button>
+                </th>
+                <th>
+                  <button>
+                    Pars
+                    <span aria-hidden="true"></span>
+                  </button>
+                </th>
+                <th>
+                  <button>
+                    Birdies
+                    <span aria-hidden="true"></span>
+                  </button>
+                </th>
+                <th>
+                  <button>
+                    Eagles
+                    <span aria-hidden="true"></span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Danny</td>
+                <td>1</td>
+                <td>0</td>
+                <td>192</td>
+                <td>40</td>
+                <td>4</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Frank</td>
+                <td>0</td>
+                <td>0</td>
+                <td>192</td>
+                <td>38</td>
+                <td>14</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Elliott</td>
+                <td>0</td>
+                <td>1</td>
+                <td>210</td>
+                <td>34</td>
+                <td>6</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Sean</td>
+                <td>0</td>
+                <td>1</td>
+                <td>200</td>
+                <td>49</td>
+                <td>2</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Titch</td>
+                <td>0</td>
+                <td>0</td>
+                <td>210</td>
+                <td>60</td>
+                <td>1</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Dibby</td>
+                <td>0</td>
+                <td>0</td>
+                <td>206</td>
+                <td>55</td>
+                <td>47</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Jimmy</td>
+                <td>0</td>
+                <td>0</td>
+                <td>186</td>
+                <td>66</td>
+                <td>35</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Bradshaw</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table></div>
+                  
+          </div>
+    </section> 
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -150,3 +150,6 @@
 .width-fit-content{
     width: fit-content;
 }
+.iconHeight{
+    height: calc(1.3rem + .6vw);
+}

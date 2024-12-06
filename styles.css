@@ -29,15 +29,14 @@
   }
   
   .navbar {
-    background-color: var(--accent-color);
+    background-color: #f0eee2;
   }
-  
   .navbar-brand {
     font-weight: bold;
   }
   
   .nav-link {
-    color: #fff !important;
+    color: #124d2d ;
     transition: color 0.3s;
   }
   

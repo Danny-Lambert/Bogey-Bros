@@ -316,6 +316,7 @@ table.sortable th:not([aria-sort]) button:hover span::after {
 
 .navbar2 {
   width: 100%;
+  z-index: 999;
 }
 
 .nav-container2 {

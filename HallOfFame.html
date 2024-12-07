@@ -17,6 +17,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   <script>
+window.addEventListener("load", (event) => {
+  console.log("page is fully loaded");
+  function doSomething(){("#navbarSupportedContent").on('show.bs.collapse', function() {
+      $('a.nav-link').click(function() {
+          $("#navbarSupportedContent").collapse('hide');
+      });
+  });
+  }
+});
     /*
  *   This content is licensed according to the W3C Software License at
  *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
@@ -186,11 +195,40 @@ window.addEventListener('load', function () {
 });
 
   </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Add smooth scrolling to all links
+        $("a").on("click", function (event) {
+          // Make sure this.hash has a value before overriding default behavior
+          if (this.hash !== "") {
+            // Prevent default anchor click behavior
+            event.preventDefault();
+  
+            // Store hash
+            var hash = this.hash;
+  
+            // Using jQuery's animate() method to add smooth page scroll
+            // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+            $("html, body").animate(
+              {
+                scrollTop: $(hash).offset().top,
+              },
+              800,
+              function () {
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = hash;
+              }
+            );
+          } // End if
+        });
+      });
+    </script>
 </head>
 <body class="parkinsans"  style="background-color: #f0eee2;">
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg">
+  <!-- <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -204,12 +242,13 @@ window.addEventListener('load', function () {
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Previous Events
             </a>
-            <ul class="dropdown-menu"  style="background: #f9f6e7;">
+            <ul class="dropdown-menu" >
               <li><a class="dropdown-item" href="./Ardencote2024.html" >Ardencote 2024</a></li>
               <li><a class="dropdown-item" href="./BeltonCourt2025.html">Belton Court 2025</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li class="my-2"><a class="dropdown-item" href="#">Hall of Fame</a></li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./HallOfFame.html">Hall of Fame</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="./Rules.html">Rules</a>
@@ -217,11 +256,31 @@ window.addEventListener('load', function () {
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> -->
+
+  <div class="navbar2" style="position: fixed;">
+    <div class="container2 nav-container2 mx-0">
+        <input class="checkbox" type="checkbox" name="" id="" />
+        <div class="hamburger-lines">
+          <span class="line line1"></span>
+          <span class="line line2"></span>
+          <span class="line line3"></span>
+        </div>  
+      <div class="menu-items2" style="    background: #e9e5d2;">
+        <li><a href="./images/">Home</a></li>
+        <li><a href="./HallOfFame.html">Hall of Fame</a></li>
+        <li><a href="./Ardencote2024.html">Ardencote 2024</a></li>
+        <li><a href="./BeltonCourt2025.html">Belton Court 2025</a></li>
+        <li><a href="./Rules.html">Rules</a></li>
+      </div>
+    </div>
+  </div>
+</nav>
+
   <!-- Hero Section -->
   <section class="hero-hall-of-fame d-flex  text-center align-items-center">
     <div class="container">
-        <h1 class="display-4 text-white" style="font-size: 4rem;">Hall of Fame</h1>
+        <h1 class="display-4 text-white fourRem">Hall of Fame</h1>
     </div>
   </section>
 
@@ -235,13 +294,13 @@ window.addEventListener('load', function () {
           <div class="justify-content-center mx-0 row">
               <div class="row d-flex align-items-center mb-2 mt-3">
                 <img src="./images/score.png" class="col-auto iconHeight pe-0"/>    
-                  <h3 class="col-auto mb-0">Lowest Score </h3>
+                  <h3 class="col-auto mb-0">Lowest Round</h3>
               </div>
               <h5 class="ms-4 mb-4">Danny Lambert & James Cahill (86)(+16) - Ardencote Manor 2024</h5>
 
               <div class="row d-flex align-items-center mb-2 mt-3">
                   <img src="./images/negative-vote.png" class="col-auto iconHeight pe-0"/>    
-                  <h3 class="col-auto mb-0">Highest Score</h3>
+                  <h3 class="col-auto mb-0">Highest Round</h3>
               </div>
               <h5 class="ms-4 mb-4">Elliott Thompson (106)(+36) - Ardencote Manor 2024</h5>
 
@@ -255,19 +314,50 @@ window.addEventListener('load', function () {
                 <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Eagles</h3>
               </div>
-              <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
                 <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Birdies</h3>
               </div>
-              <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
                 <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Pars</h3>
-            </div>
-            <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              </div>
+              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <h3 class="col-auto mb-0">Most Bogeys</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <h3 class="col-auto mb-0">Most Double Bogeys</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <h3 class="col-auto mb-0">Most Triple Bogeys</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+
+              <div class="row d-flex align-items-center mb-3 mt-3">
+                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <h3 class="col-auto mb-0">Most 4+</h3>
+              </div>
+              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
 
             <div class="row d-flex align-items-center mb-3 mt-3">
               <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
@@ -282,7 +372,16 @@ window.addEventListener('load', function () {
       </div>
     </section> 
   </section> 
-
+    <!-- List of icons 
+    rome crown
+    Eaglesbirdie
+    golf for par
+    hole in one 
+    bogey 
+    +2 ( or 2 of above?)
+    +3
+    +4
+     -->
       <div class="table-wrap mx-2" style="overflow: auto;"><table class="sortable table-responsive">
         <caption>
           *All players played 36 Holes apart from JB

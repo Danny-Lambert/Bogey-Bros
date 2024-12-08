@@ -19,6 +19,175 @@
   <script src="./main.js"></script>
 
   <script>
+        /*
+ *   This content is licensed according to the W3C Software License at
+ *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
+ *
+ *   File:   sortable-table.js
+ *
+ *   Desc:   Adds sorting to a HTML data table that implements ARIA Authoring Practices
+ */
+
+ 'use strict';
+
+class SortableTable {
+  constructor(tableNode) {
+    this.tableNode = tableNode;
+
+    this.columnHeaders = tableNode.querySelectorAll('thead th');
+
+    this.sortColumns = [];
+
+    for (var i = 0; i < this.columnHeaders.length; i++) {
+      var ch = this.columnHeaders[i];
+      var buttonNode = ch.querySelector('button');
+      if (buttonNode) {
+        this.sortColumns.push(i);
+        buttonNode.setAttribute('data-column-index', i);
+        buttonNode.addEventListener('click', this.handleClick.bind(this));
+      }
+    }
+
+    this.optionCheckbox = document.querySelector(
+      'input[type="checkbox"][value="show-unsorted-icon"]'
+    );
+
+    if (this.optionCheckbox) {
+      this.optionCheckbox.addEventListener(
+        'change',
+        this.handleOptionChange.bind(this)
+      );
+      if (this.optionCheckbox.checked) {
+        this.tableNode.classList.add('show-unsorted-icon');
+      }
+    }
+  }
+
+  setColumnHeaderSort(columnIndex) {
+    if (typeof columnIndex === 'string') {
+      columnIndex = parseInt(columnIndex);
+    }
+
+    for (var i = 0; i < this.columnHeaders.length; i++) {
+      var ch = this.columnHeaders[i];
+      var buttonNode = ch.querySelector('button');
+      if (i === columnIndex) {
+        var value = ch.getAttribute('aria-sort');
+        if (value === 'descending') {
+          ch.setAttribute('aria-sort', 'ascending');
+          this.sortColumn(
+            columnIndex,
+            'ascending',
+            ch.classList.contains('num')
+          );
+        } else {
+          ch.setAttribute('aria-sort', 'descending');
+          this.sortColumn(
+            columnIndex,
+            'descending',
+            ch.classList.contains('num')
+          );
+        }
+      } else {
+        if (ch.hasAttribute('aria-sort') && buttonNode) {
+          ch.removeAttribute('aria-sort');
+        }
+      }
+    }
+  }
+
+  sortColumn(columnIndex, sortValue, isNumber) {
+    function compareValues(a, b) {
+      if (sortValue === 'ascending') {
+        if (a.value === b.value) {
+          return 0;
+        } else {
+          if (isNumber) {
+            return a.value - b.value;
+          } else {
+            return a.value < b.value ? -1 : 1;
+          }
+        }
+      } else {
+        if (a.value === b.value) {
+          return 0;
+        } else {
+          if (isNumber) {
+            return b.value - a.value;
+          } else {
+            return a.value > b.value ? -1 : 1;
+          }
+        }
+      }
+    }
+
+    if (typeof isNumber !== 'boolean') {
+      isNumber = false;
+    }
+
+    var tbodyNode = this.tableNode.querySelector('tbody');
+    var rowNodes = [];
+    var dataCells = [];
+
+    var rowNode = tbodyNode.firstElementChild;
+
+    var index = 0;
+    while (rowNode) {
+      rowNodes.push(rowNode);
+      var rowCells = rowNode.querySelectorAll('th, td');
+      var dataCell = rowCells[columnIndex];
+
+      var data = {};
+      data.index = index;
+      data.value = dataCell.textContent.toLowerCase().trim();
+      if (isNumber) {
+        data.value = parseFloat(data.value);
+      }
+      dataCells.push(data);
+      rowNode = rowNode.nextElementSibling;
+      index += 1;
+    }
+
+    dataCells.sort(compareValues);
+
+    // remove rows
+    while (tbodyNode.firstChild) {
+      tbodyNode.removeChild(tbodyNode.lastChild);
+    }
+
+    // add sorted rows
+    for (var i = 0; i < dataCells.length; i += 1) {
+      tbodyNode.appendChild(rowNodes[dataCells[i].index]);
+    }
+  }
+
+  /* EVENT HANDLERS */
+
+  handleClick(event) {
+    var tgt = event.currentTarget;
+    this.setColumnHeaderSort(tgt.getAttribute('data-column-index'));
+  }
+
+  handleOptionChange(event) {
+    var tgt = event.currentTarget;
+
+    if (tgt.checked) {
+      this.tableNode.classList.add('show-unsorted-icon');
+    } else {
+      this.tableNode.classList.remove('show-unsorted-icon');
+    }
+  }
+}
+
+// Initialize sortable table buttons
+window.addEventListener('load', function () {
+  var sortableTables = document.querySelectorAll('table.sortable');
+  for (var i = 0; i < sortableTables.length; i++) {
+    new SortableTable(sortableTables[i]);
+  }
+});
+
+
   </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
@@ -91,13 +260,13 @@
                 <img src="./images/score.png" class="col-auto iconHeight pe-0"/>    
                   <h3 class="col-auto mb-0">Lowest Round</h3>
               </div>
-              <h5 class="ms-4 mb-4">Danny Lambert & James Cahill (86)(+19) - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Danny Lambert & James Cahill (86)(+19) - Ardencote Manor 2024 Day 2</h5>
 
               <div class="row d-flex align-items-center mb-2 mt-3">
                   <img src="./images/negative-vote.png" class="col-auto iconHeight pe-0"/>    
                   <h3 class="col-auto mb-0">Highest Round</h3>
               </div>
-              <h5 class="ms-4 mb-4">Elliott Thompson (106)(+36) - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Elliott Thompson (106)(+36) - Ardencote Manor 2024 Day 2</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
                   <img src="./images/beer.png" class="col-auto iconHeight pe-0"/>    
@@ -106,80 +275,69 @@
               <h5 class="ms-4 mb-4">Frank Foy Night 1 - Ardencote Manor 2024</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
-                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/bald-eagle.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Eagles</h3>
               </div>
-              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
-              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
-
+              <h5 class="ms-4 mb-4">No eagles.... yet</h5>
               <div class="row d-flex align-items-center mb-3 mt-3">
-                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/bird.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Birdies</h3>
               </div>
-              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
-              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Elliott Thompson (2)</h5>
+              <h5 class="ms-4 mb-4">One Round - Elliott Thompson (2) - Ardencote Manor 2024 Day 1</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
-                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/golf.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Pars</h3>
               </div>
-              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
-              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Sean Cassidy (10)</h5>
+              <h5 class="ms-4 mb-4">One Round - Sean Cassidy (7) - Ardencote Manor 2024 Day 1</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
-                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/mucus.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Bogeys</h3>
               </div>
-              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
-              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Lyndon Dibb (16)</h5>
+              <h5 class="ms-4 mb-4">One Round - Danny & Jimmy (11) - Ardencote Manor 2024 Day 2</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
-                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/mucus.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/mucus.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Double Bogeys</h3>
               </div>
-              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
-              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Elliott Thompson (13)</h5>
+              <h5 class="ms-4 mb-4">One Round - Danny Lambert (8) - Ardencote Manor 2024 Day 1</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
-                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/three.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most Triple Bogeys</h3>
               </div>
-              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
-              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Elliott Thompson (8)</h5>
+              <h5 class="ms-4 mb-4">One Round - Elliott Thompson (6) - Ardencote Manor 2024 Day 2</h5>
 
               <div class="row d-flex align-items-center mb-3 mt-3">
-                <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+                <img src="./images/bad-review.png" class="col-auto iconHeight pe-0"/>    
                 <h3 class="col-auto mb-0">Most 4+</h3>
               </div>
-              <h5 class="ms-4 mb-4">Overall - Frank Foy (2)</h5>
-              <h5 class="ms-4 mb-4">One Round - Frank Foy Night 1 - Ardencote Manor 2024</h5>
+              <h5 class="ms-4 mb-4">Overall - Joshua Robinson (4)</h5>
+              <h5 class="ms-4 mb-4">One Round - Sean & Titch (3) - Ardencote Manor 2024 Day 2   </h5>
 
             <div class="row d-flex align-items-center mb-3 mt-3">
-              <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+              <img src="./images/hole-in-one.png" class="col-auto iconHeight pe-0"/>    
               <h3 class="col-auto mb-0">Hole in Ones</h3>
           </div>
           <h5 class="ms-4 mb-4">Imagine.....</h5>
           <div class="row d-flex align-items-center mb-3 mt-3">
-            <img src="./images/disability.png" class="col-auto iconHeight pe-0"/>    
+            <img src="./images/monitor.png" class="col-auto iconHeight pe-0"/>    
             <h3 class="col-auto mb-0">The Numbers</h3>
           </div>         
           <h5 class="ms-4 mb-4">Please rotate phone for better view of table</h5>
       </div>
     </section> 
   </section> 
-    <!-- List of icons 
-    rome crown
-    Eaglesbirdie
-    golf for par
-    hole in one 
-    bogey 
-    +2 ( or 2 of above?)
-    +3
-    +4
-     -->
       <div class="table-wrap mx-2" style="overflow: auto;"><table class="sortable table-responsive">
         <caption>
-          *All players played 36 Holes apart from JB
+          *All players played 36 Holes apart from JB (0) & JC (18 - cannot find scorecard)
           <span class="sr-only"> (column headers with buttons are sortable).</span>
         </caption>
         <thead>
@@ -209,12 +367,12 @@
               </button>
             </th>
             <th>
-              <button>
-                Pars
-                <span aria-hidden="true"></span>
-              </button>
-            </th>
-            <th>
+                <button>
+                  Eagles
+                  <span aria-hidden="true"></span>
+                </button>
+              </th>
+              <th>
               <button>
                 Birdies
                 <span aria-hidden="true"></span>
@@ -222,7 +380,7 @@
             </th>
             <th>
               <button>
-                Eagles
+                Pars
                 <span aria-hidden="true"></span>
               </button>
             </th>
@@ -258,92 +416,92 @@
             <td>1</td>
             <td>0</td>
             <td>192</td>
-            <td>40</td>
-            <td>4</td>
             <td>0</td>
+            <td>0</td>
+            <td>6</td>
+            <td>12</td>
+            <td>12</td>
             <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
+            <td>2</td>
           </tr>
           <tr>
             <td>Frank</td>
             <td>0</td>
             <td>0</td>
-            <td>192</td>
-            <td>38</td>
+            <td>194</td>
+            <td>0</td>
+            <td>0</td>
+            <td>4</td>
             <td>14</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
+            <td>10</td>
+            <td>6</td>
+            <td>2</td>
 
           </tr>
           <tr>
             <td>Elliott</td>
             <td>0</td>
             <td>1</td>
-            <td>210</td>
-            <td>34</td>
-            <td>6</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
+            <td>206</td>
             <td>0</td>
+            <td>2</td>
+            <td>2</td>
+            <td>8</td>
+            <td>13</td>
+            <td>8</td>
+            <td>3</td>
           </tr>
           <tr>
             <td>Sean</td>
             <td>0</td>
             <td>1</td>
-            <td>200</td>
-            <td>49</td>
+            <td>182</td>
+            <td>0</td>
+            <td>1</td>
+            <td>10</td>
+            <td>12</td>
+            <td>8</td>
             <td>2</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
+            <td>3</td>
           </tr>
           <tr>
             <td>Titch</td>
             <td>0</td>
             <td>0</td>
-            <td>210</td>
-            <td>60</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>1</td>
+            <td>193</td>
             <td>0</td>
+            <td>0</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+            <td>5</td>
+            <td>4</td>
           </tr>
           <tr>
             <td>Dibby</td>
             <td>0</td>
             <td>0</td>
-            <td>206</td>
-            <td>55</td>
-            <td>47</td>
+            <td>180</td>
             <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
+            <td>1</td>
+            <td>5</td>
+            <td>16</td>
+            <td>12</td>
+            <td>1</td>
+            <td>1</td>
           </tr>
           <tr>
             <td>Jimmy</td>
             <td>0</td>
             <td>0</td>
-            <td>186</td>
-            <td>66</td>
-            <td>35</td>
+            <td>86</td>
             <td>0</td>
+            <td>0</td>
+            <td>3</td>
+            <td>11</td>
             <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
+            <td>0</td>
+            <td>0</td>
           </tr>
           <tr>
             <td>Bradshaw</td>
@@ -353,10 +511,10 @@
             <td>0</td>
             <td>0</td>
             <td>0</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
-            <td>4</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
           </tr>
         </tbody>
       </table></div>

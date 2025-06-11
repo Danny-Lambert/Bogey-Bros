@@ -27,6 +27,9 @@
         <div class="row col-11 col-md-6 col-lg-6">      
             <h1 class="display-4">Welcome to The Bogey Bros</h1>
             <p class="secondary-color">A bunch of mates trying to get good at golf</p>    
+            <div id="data-container"></div>
+
+        
             <div class="row mx-0 d-flex justify-content-center">
                 <button class="btn btn-secondary col-5 col-md-6 border-0 col-lg-auto mx-2 my-2" style="background-color: #678b73;"  onclick="location.href='./HallOfFame.html';">Hall of Fame</button>
                 <button class="btn btn-secondary col-5 col-md-6 border-0 col-lg-auto mx-2 my-2"  style="background-color: #678b73;" onclick="location.href='./Rules.html';">Rules</button>
@@ -36,7 +39,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="./Ardencote2024.html" >Ardencote 2024</a></li>
-                        <li><a class="dropdown-item" href="./BeltonCourt2025.html">Belton Court 2025</a></li>
+                        <li><a class="dropdown-item" href="./BeltonWoods2025.html">Belton Woods 2025</a></li>
                     </ul>
                   </div>
             </div>        
@@ -46,7 +49,31 @@
   </section>
 
   <!-- About Section -->
-
+  <script>
+    // Fetch data from the server
+    fetch('http://localhost:3000/api/data')
+      .then(response => response.json()) // Parse JSON response
+      .then(data => {
+        const container = document.getElementById('data-container');
+        console.log("this is data = " + data)
+        console.log("this is response = " )
+        
+        // Check if data exists and then create HTML for it
+        if (data.length > 0) {
+          data.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = `<p><strong>Name:</strong> ${item.name} <br><strong>Email:</strong> ${item.email}</p>`;
+            container.appendChild(div);
+          });
+        } else {
+          container.innerHTML = 'No data found.';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        document.getElementById('data-container').innerHTML = 'Failed to load data.';
+      });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

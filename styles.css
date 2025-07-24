@@ -133,7 +133,7 @@
 }
 /* .card-winner-team-2025  {
     background-image: url('./images/beltonCourt/TeamWinners.jpg'); /* Random placeholder image */
-} */
+ 
 .card-winner-worst-2025  {
     background-image: url('./images/ShittestGolferPic.jpg'); /* Random placeholder image */
 }
@@ -166,7 +166,7 @@
 }
 
 .ardencoteHeader{
-    font-size: 4rem !important;
+    font-size: 3rem !important;
     text-shadow:
     -1px -1px 0 #000,
     1px -1px 0 #000,
@@ -192,11 +192,13 @@ justify-content: center;
 }
 
 .hero-belton{
-    background: url('./images//beltonCourt/Preshot.jpg') no-repeat center center/cover;
+    background: url('./images//beltonCourt/preshot4.png') no-repeat center center/cover;
     height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
+      background-size: cover;
+  background-position: center;
 }
 .threeRem{
   font-size: 3rem !important;

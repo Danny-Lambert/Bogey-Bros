@@ -128,7 +128,15 @@
 .card-winner-worst {
     background-image: url('./images/ShittestGolferPic.jpg'); /* Random placeholder image */
 }
-
+.card-winner-solo-2025  {
+    background-image: url('./images/beltonCourt/SoloWinner4.jpg'); /* Random placeholder image */
+}
+/* .card-winner-team-2025  {
+    background-image: url('./images/beltonCourt/TeamWinners.jpg'); /* Random placeholder image */
+} */
+.card-winner-worst-2025  {
+    background-image: url('./images/ShittestGolferPic.jpg'); /* Random placeholder image */
+}
 
 .card-winner-banner {
   position: absolute;
@@ -184,16 +192,11 @@ justify-content: center;
 }
 
 .hero-belton{
-  height: 30vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgb(0,0,0);
-  background: linear-gradient(90deg, rgba(0,0,0,1) 50%, rgba(255,255,255,1) 50%);text-shadow:
--1px -1px 0 #000,
-1px -1px 0 #000,
--1px 1px 0 #000,
-1px 1px 0 #000;  
+    background: url('./images//beltonCourt/Preshot.jpg') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .threeRem{
   font-size: 3rem !important;
@@ -445,4 +448,166 @@ table.sortable th:not([aria-sort]) button:hover span::after {
 
 .nav-container2 input[type="checkbox"]:checked ~ .logo{
   display: none;
+}
+
+
+/* Container */
+.scorecard-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 4px;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* Table Styling */
+.scorecard {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px; /* Smaller base font */
+  table-layout: fixed; /* Ensures equal column widths */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.scorecard thead {
+  background: #2c3e50;
+  color: #fff;
+}
+
+.scorecard th,
+.scorecard td {
+  text-align: center;
+  padding: 4px 2px; /* Very tight padding for mobile */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scorecard thead th {
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.scorecard tbody td {
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 11px;
+}
+
+.scorecard tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* Winner Highlight */
+.scorecard td.winner {
+  background-color: #d8f6e6;
+  color: #16a085;
+  font-weight: bold;
+  border-radius: 2px;
+}
+.scorecard td.halved {
+  background-color: #ffe882;
+  color: #ac8210;
+  font-weight: bold;
+  border-radius: 2px;
+}
+/* SCORE column */
+.scorecard td:last-child {
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* Force smaller table on mobile */
+@media screen and (max-width: 480px) {
+  .scorecard {
+    font-size: 11px;
+  }
+  .scorecard th,
+  .scorecard td {
+    padding: 3px 1px;
+  }
+}
+.ponteWin{
+  background-color: #6491be;
+  color: white !important;
+      border-radius: 5rem;
+}
+.drawNoWin{
+  background-color: #ffe882;
+  color: black !important;
+      border-radius: 5rem;
+}
+.rowWin{
+  background-color: #b87d78;
+  color: black !important;
+    border-radius: 5rem;
+  }
+
+
+
+  .cardSoloWin {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  background-image: url("./images/beltonCourt/SoloWinner4.jpg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+  .cardTeamWin {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  background-image: url("./images/beltonCourt/TeamWinners.jpg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+  .cardWorse {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  background-image: url("./images/beltonCourt/shittestGolfer.png");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+/* Banner styles */
+.banner2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 15%; /* About 2/3 down from top */
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+th button {
+  all: unset;            /* Remove all native button styles */
+  cursor: pointer;       /* Show pointer cursor on hover */
+  font: inherit;         /* Use the same font as the surrounding text */
+  padding: 5px;            /* Remove padding */
+  margin: 0;             /* Remove margin */
+  display: inline;       /* Make sure it behaves like inline text */
+  user-select: none;     /* Optional: prevent text selection on click */
+}
+
+th button:focus {
+  outline: 2px solid #0078D7; /* Visible focus outline for accessibility */
+  outline-offset: 2px;
 }

@@ -720,7 +720,7 @@ th button:focus {
 .day2-scorecard th,
 .day2-scorecard td {
   border: 1px solid #ccc;
-  padding: 8px;
+  padding: 4px;
   min-width: 35px;
 }
 

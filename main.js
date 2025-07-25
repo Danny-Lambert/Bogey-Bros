@@ -95,3 +95,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const table = document.getElementById('player-stats-table');
+  const headers = table.querySelectorAll('th');
+  let sortDirection = {};
+
+  headers.forEach((header, index) => {
+    header.addEventListener('click', () => {
+      const type = header.getAttribute('data-sort');
+      const rows = Array.from(table.querySelector('tbody').rows);
+      const direction = sortDirection[index] === 'asc' ? 'desc' : 'asc';
+      sortDirection = {}; // reset
+      sortDirection[index] = direction;
+
+      // Remove previous sort classes
+      headers.forEach(h => h.classList.remove('sorted-asc', 'sorted-desc'));
+      header.classList.add(direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+
+      const sortedRows = rows.sort((a, b) => {
+        let aText = a.cells[index].innerText.trim();
+        let bText = b.cells[index].innerText.trim();
+
+        if (type === 'number') {
+          aText = parseFloat(aText) || 0;
+          bText = parseFloat(bText) || 0;
+        }
+
+        if (aText < bText) return direction === 'asc' ? -1 : 1;
+        if (aText > bText) return direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+
+      const tbody = table.querySelector('tbody');
+      tbody.innerHTML = '';
+      tbody.append(...sortedRows);
+    });
+  });
+});
+
+

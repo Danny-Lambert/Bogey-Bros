@@ -613,3 +613,177 @@ th button:focus {
   outline: 2px solid #0078D7; /* Visible focus outline for accessibility */
   outline-offset: 2px;
 }
+
+/* Container for responsive design */
+.stats-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 0.5rem auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  padding: 0.25rem;
+}
+
+/* Base table styles */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Arial", sans-serif;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+/* Caption */
+.stats-table caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Table header */
+.stats-table th {
+  text-align: left;
+      width: 20%;
+  padding: 0.5rem 0.35rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #487294; /* Stronger header background */
+  color: #fff; /* White text for contrast */
+  position: relative;
+  user-select: none;
+  font-size: 0.8rem;
+}
+
+.stats-table th:hover {
+  background: #005fa3; /* Darker on hover */
+}
+
+/* Sort indicators */
+.stats-table th::after {
+  content: "⇅";
+  font-size: 0.65rem;
+  position: absolute;
+  right: 6px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stats-table th.sorted-asc::after {
+  content: "▲";
+  color: #fff;
+}
+
+.stats-table th.sorted-desc::after {
+  content: "▼";
+  color: #fff;
+}
+
+/* Table body */
+.stats-table td {
+  padding: 0.4rem 0.35rem;
+  border-top: 1px solid #e6e6e6;
+  font-size: 0.8rem;
+}
+
+/* Zebra striping */
+.stats-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .stats-table {
+    font-size: 0.75rem;
+  }
+
+  .stats-table th, 
+  .stats-table td {
+    padding: 0.35rem 0.3rem;
+  }
+
+  .stats-table caption {
+    font-size: 0.8rem;
+  }
+}
+/* Table Styling */
+.day2-scorecard {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.day2-scorecard th,
+.day2-scorecard td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  min-width: 35px;
+}
+
+.day2-scorecard th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.par-row td {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+.nameRow{
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+.totalRow{
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+/* Color Classes for Score Differences */
+.day2-below-par {
+  background-color: #bd2936; /* light red */
+  color: white;
+    border-radius: 100%;
+}
+
+
+.day2-over-1 {
+  background-color: #aecdee; /* light blue */
+}
+
+.day2-over-2 {
+  background-color: #6694c3; /* medium blue */
+}
+
+.day2-over-3 {
+  background-color: #003192; /* dark blue */
+  color: #fff;
+}
+
+.day2-over-4 {
+  background-color: #000; /* black */
+  color: #fff;
+}
+
+.day2-over-5,
+.day2-over-6,
+.day2-over-7 {
+  background-color: #000; /* black */
+  color: #fff;
+}
+
+/* Make sure circle scores display nicely */
+.day2-below-par {
+  text-align: center;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .day2-scorecard {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

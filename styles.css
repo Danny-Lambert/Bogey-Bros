@@ -787,3 +787,72 @@ th button:focus {
     white-space: nowrap;
   }
 }
+
+
+
+
+
+
+    body.maintenance-body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    /* Container */
+    .maintenance-container {
+        max-width: 600px;
+        padding: 20px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 15px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        animation: maintenance-fadeIn 1.2s ease-in-out;
+    }
+
+    /* Title */
+    .maintenance-title {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+    }
+
+    /* Subtitle */
+    .maintenance-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #ddd;
+    }
+
+    /* Loader Animation */
+    .maintenance-loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid rgba(255,255,255,0.3);
+        border-top: 6px solid #fff;
+        border-radius: 50%;
+        animation: maintenance-spin 1s linear infinite;
+        margin: 20px auto;
+    }
+
+
+    /* Animations */
+    @keyframes maintenance-spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    @keyframes maintenance-fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .maintenance-title { font-size: 2rem; }
+        .maintenance-subtitle { font-size: 1rem; }
+    }
